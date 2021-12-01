@@ -8,7 +8,7 @@ int main() {
     while(cin >> A) {
         count++;
 
-        if (count >= 4 && A+B+C > B+C+D) {
+        if (count >= 4 && A > D) {
             answer++;
         }        
         D = C;
