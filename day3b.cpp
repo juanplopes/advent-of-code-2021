@@ -33,11 +33,9 @@ int filter(vector<string>& V, bool inverse) {
 
 int main() {
     string s;
-    int size = 0;
     while(cin >> s) {
         X.push_back(s);
         Y.push_back(s);
-        size = max(size, (int)s.size());        
     }
 
     cout << filter(X, false) * filter(Y, true) << endl;
