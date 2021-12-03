@@ -20,8 +20,7 @@ int filter(vector<string>& V, bool inverse) {
                 temp.push_back(V[i]);
             }
         }
-        V.clear(); 
-        V.insert(V.end(), temp.begin(), temp.end());
+        V = temp;
     }
     int answer = 0;
     for(int i = 0; i<V[0].size(); i++) {
