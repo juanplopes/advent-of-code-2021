@@ -39,6 +39,7 @@ int main() {
             }
 
             if (win) {
+                cout << " " << count << endl;
                 if (count > best) {
                     best = count;
                     score = sum * drawn;
