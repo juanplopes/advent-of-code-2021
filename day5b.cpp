@@ -18,7 +18,6 @@ int main() {
             }
         }
     }
-
     
     cout << answer << endl;
 }
