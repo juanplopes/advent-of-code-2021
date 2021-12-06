@@ -1,5 +1,4 @@
 #include<iostream>
-#include<cstring>
 using namespace std;
 
 long long T[10];
