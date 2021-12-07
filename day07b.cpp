@@ -14,14 +14,7 @@ int f(int x) {
     return answer;
 }
 
-int main() {
-    char comma;
-    while(cin >> T[N]) {
-        cin >> comma;
-        N++;
-    }
-    sort(T, T+N);
-    int left = T[0], right = T[N-1];
+int ternary(int left, int right) {
     while(left < right) {
         int third1 = left + (right - left) / 3;
         int third2 = right - (right - left) / 3;
@@ -31,9 +24,18 @@ int main() {
         } else if (f1 < f2) {
             right = third1 - 1;
         } else {
-            break;
+            return f1;
         }
     }
+    return f(left);
+}
 
-    cout << f(left) << endl;
+int main() {
+    char comma;
+    while(cin >> T[N]) {
+        cin >> comma;
+        N++;
+    }
+    sort(T, T+N);
+    cout << ternary(T[0], T[N-1]) << endl;
 }
