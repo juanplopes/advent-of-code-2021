@@ -25,10 +25,14 @@ int main() {
     while(left < right) {
         int third1 = left + (right - left) / 3;
         int third2 = right - (right - left) / 3;
-        if (f(third1) > f(third2)) 
+        int f1 = f(third1), f2 = f(third2);
+        if (f1 > f2) {
             left = third2 + 1;
-        else
+        } else if (f1 < f2) {
             right = third1 - 1;
+        } else {
+            break;
+        }
     }
 
     cout << f(left) << endl;
