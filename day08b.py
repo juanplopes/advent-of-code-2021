@@ -13,8 +13,7 @@ def translate(permutation, elements):
 
 answer = 0
 while True:
-    try:
-        training, data = (x.split() for x in  input().split('|'))
+    try: training, data = (x.split() for x in  input().split('|'))
     except EOFError: break
 
     for permutation in permutations('abcdefg'):
