@@ -1,22 +1,18 @@
+def common(a, b): 
+    return len(set(a).intersection(b));
 
-from itertools import permutations
-segments = ['abcefg', 'cf', 'acdeg', 'acdfg', 'bcdf', 'abdfg', 'abdefg', 'acf', 'abcdefg', 'abcdfg']
-
-def translate(permutation, elements):
-    current = 0
-    for element in elements:
-        translated = ''.join(sorted(permutation[ord(x) - ord('a')] for x in element))
-        if translated not in segments:
-            return None
-        current = current * 10 + segments.index(translated)
-    return current
+A = ['abcefg', 'cf', 'acdeg', 'acdfg', 'bcdf', 'abdfg', 'abdefg', 'acf', 'abcdefg', 'abcdfg']
+S = {tuple(common(A[x], A[y]) for y in (1, 4, 7, 8)): x for x in range(10)}
 
 answer = 0
 while True:
     try: training, data = (x.split() for x in  input().split('|'))
     except EOFError: break
 
-    answer += sum(translate(p, data) 
-        for p in permutations('abcdefg') if translate(p, training))
-    
+    sample = {len(x): x for x in training}
+    value = 0
+    for digit in data:
+        signature = tuple(common(digit, sample[x]) for x in (2, 4, 3, 7))
+        value = value * 10 + S[signature]
+    answer += value
 print(answer)
