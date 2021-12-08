@@ -16,9 +16,7 @@ while True:
     try: training, data = (x.split() for x in  input().split('|'))
     except EOFError: break
 
-    for permutation in permutations('abcdefg'):
-        if translate(permutation, training) is not None:
-            answer += translate(permutation, data)
-            break
+    answer += sum(translate(p, data) 
+        for p in permutations('abcdefg') if translate(p, training))
     
 print(answer)
