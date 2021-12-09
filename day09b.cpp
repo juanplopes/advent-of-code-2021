@@ -5,7 +5,7 @@
 using namespace std;
 
 string T[100];
-int N;
+int N = 0;
 vector<int> V;
 
 int dfs(int i, int j) {
@@ -15,12 +15,10 @@ int dfs(int i, int j) {
 }
 
 int main() {
-    while(cin >> T[N]) 
-        N++;
-    int answer = 0;
+    while(cin >> T[N]) N++;
     for(int i=0; i<N; i++)
         for(int j=0; j<T[i].size(); j++)
             V.push_back(dfs(i, j));
-    sort(V.begin(), V.end(), greater<int>());
+    nth_element(V.begin(), V.begin()+3, V.end(), greater<int>());
     cout << V[0]*V[1]*V[2] << endl;
 }
