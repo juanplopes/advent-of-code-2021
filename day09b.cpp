@@ -8,7 +8,6 @@ string T[100];
 int N;
 vector<int> V;
 
-
 int dfs(int i, int j) {
     if (T[i][j] == '9' || i < 0 || j < 0 || i >= N || j >= T[i].size()) return 0;
     T[i][j] = '9';
