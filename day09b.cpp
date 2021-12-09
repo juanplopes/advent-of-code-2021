@@ -1,11 +1,12 @@
 #include<iostream>
 #include<string>
-#include<queue>
+#include<vector>
+#include<algorithm>
 using namespace std;
 
 string T[100];
 int N;
-priority_queue<int> Q;
+vector<int> V;
 
 
 int dfs(int i, int j) {
@@ -20,11 +21,7 @@ int main() {
     int answer = 0;
     for(int i=0; i<N; i++)
         for(int j=0; j<T[i].size(); j++)
-            Q.push(dfs(i, j));
-
-    int a = Q.top(); Q.pop();
-    int b = Q.top(); Q.pop();
-    int c = Q.top(); Q.pop();
-
-    cout << a*b*c << endl;
+            V.push_back(dfs(i, j));
+    sort(V.begin(), V.end(), greater<int>());
+    cout << V[0]*V[1]*V[2] << endl;
 }
