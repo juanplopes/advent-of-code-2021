@@ -3,7 +3,10 @@ G = defaultdict(lambda: [])
 
 def count(src, dst, twice, force, visited):
     if not force and src in visited: 
-        return (0 if not twice or src in ('start', 'end') else count(src, dst, False, True, visited))
+        if twice and src not in ('start', 'end'):
+            return count(src, dst, False, True, visited)
+        else:
+            return 0
     if src == dst: return 1
 
     if not force and 'a' <= src[0] <= 'z': visited.add(src)
