@@ -12,9 +12,7 @@ while True:
 while True:
     try: a, b = input().split(' ')[2].split('=')
     except EOFError: break
-    b = int(b)
-    
-    T = set(fold(T, a == 'x', b))
+    T = set(fold(T, a == 'x', int(b)))
     break
 
 print(len(T))

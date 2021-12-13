@@ -12,9 +12,7 @@ while True:
 while True:
     try: a, b = input().split(' ')[2].split('=')
     except EOFError: break
-    b = int(b)
-    
-    T = set(fold(T, a == 'x', b))
+    T = set(fold(T, a == 'x', int(b)))
     
 for y in range(10):
     print(''.join('X' if (x, y) in T else '.' for x in range(50)))
