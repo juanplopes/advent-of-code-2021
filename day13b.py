@@ -3,10 +3,6 @@ def fold(T, over_x, value):
         yield (2*value - x if over_x and x > value else x, 
                2*value - y if not over_x and y > value else y)
 
-def display(T):
-    for y in range(10):
-        print(''.join('X' if (x, y) in T else '.' for x in range(50)))
-
 T = set()
 while True:
     line = input()
@@ -20,4 +16,5 @@ while True:
     
     T = set(fold(T, a == 'x', b))
     
-display(T)
+for y in range(10):
+    print(''.join('X' if (x, y) in T else '.' for x in range(50)))
