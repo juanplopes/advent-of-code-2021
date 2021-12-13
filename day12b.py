@@ -13,11 +13,7 @@ def count(src, dst, twice, force, visited = frozenset()):
     if src == dst: return 1
     if not force and 'a' <= src[0] <= 'z': 
         visited = visited.union((src,))
-    answer = 0
-    for neighbor in G[src]:
-        answer += count(neighbor, dst, twice, False, visited)
-
-    return answer
+    return sum(count(x, dst, twice, False, visited) for x in G[src])
 
 while True:
     try: a, b = input().split('-')
