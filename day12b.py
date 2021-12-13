@@ -1,8 +1,6 @@
 from collections import defaultdict
-from functools import cache
 G = defaultdict(lambda: [])
 
-@cache
 def count(src, dst, twice, force, visited):
     if not force and src in visited: 
         if twice and src not in ('start', 'end'):
