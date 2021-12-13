@@ -11,7 +11,7 @@ def count(src, dst, twice, force, visited = frozenset()):
             return 0
 
     if src == dst: return 1
-    if not force and 'a' <= src[0] <= 'z': visited |= {src}
+    if 'a' <= src[0] <= 'z': visited |= {src}
     return sum(count(x, dst, twice, False, visited) for x in G[src])
 
 while True:
