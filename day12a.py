@@ -1,17 +1,14 @@
 from collections import defaultdict
+from functools import cache
 G = defaultdict(lambda: [])
 
-def count(src, dst, visited):
+@cache
+def count(src, dst, visited = frozenset()):
     if src in visited: return 0
     if src == dst: return 1
 
-    if 'a' <= src[0] <= 'z': visited.add(src)
-    answer = 0
-    for neighbor in G[src]:
-        answer += count(neighbor, dst, visited)
-
-    if 'a' <= src[0] <= 'z': visited.remove(src)
-    return answer
+    if 'a' <= src[0] <= 'z': visited |= {src}
+    return sum(count(x, dst, visited) for x in G[src])
 
 
 while True:
@@ -20,4 +17,4 @@ while True:
     G[a].append(b)
     G[b].append(a)
 
-print(count('start', 'end', set()))
+print(count('start', 'end'))
