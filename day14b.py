@@ -17,9 +17,8 @@ for i in range(40):
         new_state[(c, b)] += value
     state = new_state
 
-answer = Counter((start[0], start[-1]))
+answer = Counter(start[0])
 for (a, b), value in state.items():
-    answer[a] += value
     answer[b] += value
 
-print(max(answer.values())//2 - min(answer.values())//2)
+print(max(answer.values()) - min(answer.values()))
