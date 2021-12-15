@@ -1,25 +1,21 @@
 import heapq
 
-def add(G, heap, best, distance, i, j):
-    if i < 0 or j < 0 or i >= len(G) or j >= len(G): return
-    if distance + G[i][j] >= best[(i, j)]: return
-    heapq.heappush(heap, (distance + G[i][j], (i, j)))
+def add(G, heap, best, distance, x, y):
+    if x < 0 or y < 0 or x >= len(G) or y >= len(G): return
+    if distance + G[x][y] >= best[x][y]: return
+    heapq.heappush(heap, (distance + G[x][y], (x, y)))
 
 def dijkstra(G, start_node, end_node):
-    best = {(i, j): float('+Inf') 
-            for i in range(len(G)) 
-            for j in range(len(G))}
+    best = [[float('+Inf')]*len(G) for _ in range(len(G))]
     
     heap = []
     heapq.heappush(heap, (0, start_node))
     while len(heap):
-        distance, node = heapq.heappop(heap)
-        if distance >= best[node]: continue
-        if node == end_node: 
-            return distance
-        best[node] = distance
+        distance, (x, y) = heapq.heappop(heap)
+        if distance >= best[x][y]: continue
+        if (x, y) == end_node: return distance
+        best[x][y] = distance
         
-        x, y = node
         add(G, heap, best, distance, x-1, y)
         add(G, heap, best, distance, x+1, y)
         add(G, heap, best, distance, x, y-1)
