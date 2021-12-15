@@ -8,8 +8,9 @@ def add(G, heap, best, distance, i, j):
     heapq.heappush(heap, (distance + cost, (i, j)))
 
 def dijkstra(G, start_node, end_node):
-    best = {(i, j): float('+Inf') for i in range(len(G)*5) for j in range(len(G)*5)}
-    
+    best = {(i, j): float('+Inf') 
+            for i in range(len(G)*5) 
+            for j in range(len(G)*5)}
     heap = []
     heapq.heappush(heap, (0, start_node))
     while len(heap):
