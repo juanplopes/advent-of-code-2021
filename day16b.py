@@ -24,20 +24,19 @@ def var(stream):
 def packetlist(stream):
     if (next(stream)):
         return packets(stream, fixed(stream, 11))
-    else:
-        return packets(islice(stream, fixed(stream, 15)), 1000)
+    return packets(islice(stream, fixed(stream, 15)), 1000)
 
 def packets(stream, expected):
     for packet in range(expected):
-        try:
-            version = fixed(stream, 3)
-            typeid = fixed(stream, 3)
-            if typeid == 4: 
-                yield var(stream)
-            else:
-                yield int(reduce(TYPE[typeid], packetlist(stream)))
-        except StopIteration:
-            break
+        try: version = fixed(stream, 3)
+        except StopIteration: break   
+        
+        typeid = fixed(stream, 3)
+        if typeid == 4: 
+            yield var(stream)
+        else:
+            yield int(reduce(TYPE[typeid], packetlist(stream)))
+        
 
 while True:
     try: print(list(packets(decode(input()), 1)))
