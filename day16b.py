@@ -1,4 +1,4 @@
-from itertools import chain, islice
+from itertools import islice
 from functools import reduce
 
 TYPE = {0: int.__add__, 1: int.__mul__, 2: min, 3: max, 
