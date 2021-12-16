@@ -22,21 +22,20 @@ def var(stream):
         if not has_next: return answer
 
 def packetlist(stream):
-    if (next(stream)):
-        return packets(stream, fixed(stream, 11))
-    return packets(islice(stream, fixed(stream, 15)), 1000)
+    if next(stream):
+        return map(lambda _: packet(stream), range(fixed(stream, 11)))
+    else:
+        sliced = islice(stream, fixed(stream, 15))
+        return map(lambda _: packet(sliced), range(1000))
 
-def packets(stream, expected):
-    for packet in range(expected):
-        try: fixed(stream, 3)
-        except StopIteration: break   
-        
-        typeid = fixed(stream, 3)
-        if typeid == 4: 
-            yield var(stream)
-        else:
-            yield int(reduce(TYPE[typeid], packetlist(stream)))
+def packet(stream):
+    fixed(stream, 3)
+    typeid = fixed(stream, 3)
+    if typeid == 4: 
+        return var(stream)
+    else:
+        return int(reduce(TYPE[typeid], packetlist(stream)))
 
 while True:
-    try: print(list(packets(decode(input()), 1)))
+    try: print(packet(decode(input())))
     except EOFError: break
