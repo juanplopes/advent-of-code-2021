@@ -35,7 +35,9 @@ def packet(stream):
     if typeid == 4: 
         return str(var(stream))
     else:
-        return f"{PREFIX.get(typeid, '(')}{INFIX[typeid].join(packetlist(stream))}{SUFFIX.get(typeid, ')')}"
+        return (PREFIX.get(typeid, '(') 
+                + INFIX[typeid].join(packetlist(stream)) 
+                + SUFFIX.get(typeid, ')'))
 
 while True:
     try: print(packet(decode(input())))
