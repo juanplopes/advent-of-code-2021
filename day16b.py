@@ -36,7 +36,6 @@ def packets(stream, expected):
             yield var(stream)
         else:
             yield int(reduce(TYPE[typeid], packetlist(stream)))
-        
 
 while True:
     try: print(list(packets(decode(input()), 1)))
