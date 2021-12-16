@@ -28,7 +28,7 @@ def packetlist(stream):
 
 def packets(stream, expected):
     for packet in range(expected):
-        try: version = fixed(stream, 3)
+        try: fixed(stream, 3)
         except StopIteration: break   
         
         typeid = fixed(stream, 3)
