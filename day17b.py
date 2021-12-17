@@ -3,9 +3,10 @@
 
 S = set()
 for dy in range(-500, 500):
-    for t in (t for t in range(500) if y1 <= dy*t - (t*t-t)//2 <= y2):
+    for t in range(500):
+        if not y1 <= dy*t - (t*t-t)//2 <= y2: continue
         for dx in range(500):
-            if x1 <= min(dx*t, dx*dx)-min((t*t-t)//2, (dx*dx-dx)/2) <= x2:
-                S.add((dx, dy))
+            if not x1 <= min(dx*t, dx*dx)-min((t*t-t)//2, (dx*dx-dx)/2) <= x2: continue
+            S.add((dx, dy))
 
 print(len(S))
