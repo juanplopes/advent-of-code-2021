@@ -8,12 +8,11 @@ def wrap(tree):
     nodes = []
     def inner(value):
         if not isinstance(value, int): return [inner(value[0]), inner(value[1])]
-        node = Node(value, None, None)
-        if len(nodes):
-            nodes[-1].next = node
-            node.prev = nodes[-1]
-        nodes.append(node)
-        return node
+        nodes.append(Node(value, None, None))
+        if len(nodes) > 1:
+            nodes[-2].next = nodes[-1]
+            nodes[-1].prev = nodes[-2]
+        return nodes[-1]
     return inner(tree)
 
 def unwrap(tree):
