@@ -48,13 +48,13 @@ def split(tree):
     return success, tree
 
 def reduce(tree):
+    tree = wrap(tree)
     while True:
         some1, tree = explode(tree)
         if some1: continue
         some2, tree = split(tree)
         if some2: continue
-        break
-    return tree
+        return unwrap(tree)
 
 def magnitude(tree):
     if isinstance(tree, int): return tree
@@ -63,8 +63,7 @@ def magnitude(tree):
 
 current = None
 while True:
-    try: current = [current, eval(input())] if current else eval(input())
+    try: current = reduce([current, eval(input())] if current else eval(input()))
     except EOFError: break
-    current = unwrap(reduce(wrap(current)))
 
 print(magnitude(current))

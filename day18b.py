@@ -48,13 +48,13 @@ def split(tree):
     return success, tree
 
 def reduce(tree):
+    tree = wrap(tree)
     while True:
         some1, tree = explode(tree)
         if some1: continue
         some2, tree = split(tree)
         if some2: continue
-        break
-    return tree
+        return unwrap(tree)
 
 def magnitude(tree):
     if isinstance(tree, int): return tree
@@ -65,4 +65,4 @@ while True:
     try: T.append(eval(input()))
     except EOFError: break
 
-print(max(magnitude(unwrap(reduce(wrap([a, b])))) for a in T for b in T))
+print(max(magnitude(reduce([a, b])) for a in T for b in T))
