@@ -13,7 +13,7 @@ def explode(tree):
     for i in range(2, 64, 4):
         left, right = i - (i&-i)//2, i + (i&-i)//2
         if tree[i] == None and tree[left] != None and tree[right] != None:    
-            for j in range(left-1, -1, -1):
+            for j in range(left-1, 0, -1):
                 if tree[j] != None: tree[j] += tree[left]; break
             for j in range(right+1, 64):
                 if tree[j] != None: tree[j] += tree[right]; break
