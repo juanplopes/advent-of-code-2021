@@ -1,68 +1,49 @@
-from dataclasses import dataclass
-
-@dataclass
-class Node:
-    value: int; prev: object; next: object
-
+import math
 def wrap(tree):
-    nodes = []
-    def inner(value):
-        if not isinstance(value, int): return [inner(value[0]), inner(value[1])]
-        nodes.append(Node(value, None, None))
-        if len(nodes) > 1:
-            nodes[-2].next = nodes[-1]
-            nodes[-1].prev = nodes[-2]
-        return nodes[-1]
-    return inner(tree)
+    nodes = [None]*64
+    def inner(tree, a, b):
+        if isinstance(tree, int): nodes[(a+b)//2] = tree
+        else: inner(tree[0], a, (a+b)//2); inner(tree[1], (a+b)//2, b)
+    inner(tree, 0, 64)
+    return nodes
 
-def unwrap(tree):
-    if isinstance(tree, Node): return tree.value
-    return list(unwrap(x) for x in tree)
+def unwrap(tree, a=0, b=64):
+    if tree[(a+b)//2] != None: return tree[(a+b)//2]
+    return [unwrap(tree, a, (a+b)//2), unwrap(tree, (a+b)//2, b)]
 
-def explode(tree, level=0):
-    if level >= 4 and not isinstance(tree, Node) and all(isinstance(x, Node) for x in tree):
-        left, right = tree
-        newtree = Node(0, left.prev, right.next)
-        if left.prev: left.prev.next = newtree; left.prev.value += left.value
-        if right.next: right.next.prev = newtree; right.next.value += right.value
-        return True, newtree
-    if isinstance(tree, Node): return False, tree
-    success, tree[0] = explode(tree[0], level+1)
-    if success: return success, tree
-    success, tree[1] = explode(tree[1], level+1)
-    return success, tree
+def scan_and_set(tree, a, d, value):
+    while 0 <= a < len(tree): 
+        if tree[a] != None: tree[a] += value; break
+        a += d
+
+def explode(tree):
+    for i in range(1, 64):
+        level, left, right = int(math.log2(i&-i)), i - (i&-i)//2, i + (i&-i)//2
+        if level == 1 and tree[i] == None and tree[left] != None and tree[right] != None:    
+            scan_and_set(tree, left-1, -1, tree[left])
+            scan_and_set(tree, right+1, +1, tree[right])
+            tree[i], tree[left], tree[right] = 0, None, None
+            return True
 
 def split(tree):
-    if isinstance(tree, Node) and tree.value >= 10:
-        left = Node(tree.value//2, tree.prev, None)
-        right = Node((tree.value+1)//2, left, tree.next)
-        left.next = right
-        if tree.prev: tree.prev.next = left
-        if tree.next: tree.next.prev = right
-        return True, [left, right]
-    if isinstance(tree, Node): return False, tree
-    success, tree[0] = split(tree[0])
-    if success: return success, tree
-    success, tree[1] = split(tree[1])
-    return success, tree
-
+    for i in range(1, 64):
+        left, right = i - (i&-i)//2, i + (i&-i)//2
+        if tree[i] != None and tree[i] >= 10:
+            tree[i], tree[left], tree[right] = None, tree[i] // 2, (tree[i]+1) // 2
+            return True
+    
 def reduce(tree):
     tree = wrap(tree)
-    while True:
-        some1, tree = explode(tree)
-        if some1: continue
-        some2, tree = split(tree)
-        if some2: continue
-        return unwrap(tree)
+    while explode(tree) or split(tree): pass
+    return unwrap(tree)
 
 def magnitude(tree):
     if isinstance(tree, int): return tree
     return magnitude(tree[0])*3 + magnitude(tree[1])*2
 
-
-current = None
+current = 0
 while True:
-    try: current = reduce([current, eval(input())] if current else eval(input()))
+    try: current = reduce([current, eval(input())])
     except EOFError: break
 
 print(magnitude(current))
