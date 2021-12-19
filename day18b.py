@@ -1,9 +1,8 @@
 def wrap(tree, a, b, nodes):
     if isinstance(tree, int): 
         nodes[(a+b)//2] = tree
-    else: 
-        wrap(tree[0], a, (a+b)//2, nodes) and wrap(tree[1], (a+b)//2, b, nodes)
-    return nodes
+        return nodes
+    return wrap(tree[0], a, (a+b)//2, nodes) and wrap(tree[1], (a+b)//2, b, nodes)
 
 def explode(tree):
     for i in range(2, 64, 4):
