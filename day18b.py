@@ -5,10 +5,6 @@ def wrap(tree, a, b, nodes):
         wrap(tree[0], a, (a+b)//2, nodes) and wrap(tree[1], (a+b)//2, b, nodes)
     return nodes
 
-def unwrap(tree, a=0, b=64):
-    if tree[(a+b)//2] != None: return tree[(a+b)//2]
-    return [unwrap(tree, a, (a+b)//2), unwrap(tree, (a+b)//2, b)]
-
 def explode(tree):
     for i in range(2, 64, 4):
         left, right = i - (i&-i)//2, i + (i&-i)//2
@@ -30,15 +26,14 @@ def split(tree):
 def reduce(tree):
     tree = wrap(tree, 0, 64, [None]*64)
     while explode(tree) or split(tree): pass
-    return unwrap(tree)
+    return magnitude(tree)
 
-def magnitude(tree):
-    if isinstance(tree, int): return tree
-    return magnitude(tree[0])*3 + magnitude(tree[1])*2
+def magnitude(tree, a=0, b=64):
+    if tree[(a+b)//2] != None: return tree[(a+b)//2]
+    return 3*magnitude(tree, a, (a+b)//2)+2*magnitude(tree, (a+b)//2, b)
 
 T = []
 while True:
     try: T.append(eval(input()))
     except EOFError: break
-
-print(max(magnitude(reduce([a, b])) for a in T for b in T))
+print(max(reduce([a, b]) for a in T for b in T))
