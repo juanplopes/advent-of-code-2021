@@ -16,7 +16,6 @@ def apply(i, j, d):
             get(i+1, j-1, d)<<2 | get(i+1, j  , d)<<1 | get(i+1, j+1, d)]
 
 for k in range(50):
-    print(k, sum(x == '#' for line in T for x in line))
     T = [[apply(i, j, k%2 if algorithm[0] == '#' else 0) 
           for j in range(-1, len(T[0])+1)] 
           for i in range(-1, len(T)+1)]
