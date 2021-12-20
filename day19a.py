@@ -50,7 +50,4 @@ while len(S):
         settled.append(best)
         break
        
-print(len({x for scanner in settled for x in scanner}))
-
-
-
+print(len({x for beacon in settled for x in beacon}))

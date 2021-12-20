@@ -54,4 +54,3 @@ while len(S):
         break
 
 print(max(sum(abs(a-b) for a, b in zip(x, y)) for x in scanners for y in scanners))
-
