@@ -10,11 +10,8 @@ def get(i, j, d):
     return T[i][j] == '#'
 
 def apply(i, j, d):
-    return algorithm[
-            get(i-1, j-1, d)<<8 | get(i-1, j  , d)<<7 | get(i-1, j+1, d)<<6 |
-            get(i  , j-1, d)<<5 | get(i  , j  , d)<<4 | get(i  , j+1, d)<<3 |
-            get(i+1, j-1, d)<<2 | get(i+1, j  , d)<<1 | get(i+1, j+1, d)]
-
+    return algorithm[sum(get(i-1+k//3, j-1+k%3, d)<<(8-k) for k in range(9))]
+            
 for k in range(2):
     T = [[apply(i, j, k%2 if algorithm[0] == '#' else 0) 
           for j in range(-1, len(T[0])+1)] 
