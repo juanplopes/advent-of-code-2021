@@ -21,4 +21,3 @@ for k in range(2):
           for i in range(-1, len(T)+1)]
 
 print(sum(x == '#' for line in T for x in line))
-
