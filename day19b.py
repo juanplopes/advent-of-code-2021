@@ -15,14 +15,18 @@ def find_translation(scanner, test):
             if len(set(translated).intersection(scanner)) < 12: continue
             return tuple(-b+c for b, c in zip(origin1, origin2)), translated
 
-def signature(A):
-    return set(sum(abs(a-b) for a, b in zip(x, y)) for x in A for y in A if x > y)
+def signature(A, fn):
+    return set(fn(abs(a-b) for a, b in zip(x, y)) for x in A for y in A if x > y)
+
+def test_signature(A, B, fn):
+    return len(signature(A, fn).intersection(signature(B, fn))) < 66
 
 def find_best(settled, test):
     for scanner in settled:
-        if len(signature(test).intersection(signature(scanner))) < 66: continue
+        if test_signature(test, scanner, sum): continue
         for rot in R:
             rotated = [rotate(rot, x) for x in test]
+            if test_signature(rotated, scanner, tuple): continue
             translated = find_translation(scanner, rotated)
             if translated is None: continue
             return translated
@@ -48,6 +52,6 @@ while len(S):
         settled.append(best[1])
         scanners.append(best[0])
         break
-       
+
 print(max(sum(abs(a-b) for a, b in zip(x, y)) for x in scanners for y in scanners))
 
