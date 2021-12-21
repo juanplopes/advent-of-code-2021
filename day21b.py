@@ -19,5 +19,3 @@ for i in range(42):
                 S[i+1][(p1,np2,s1,min(s2+np2, 21))] += value
 
 print(max(answer1, answer2))
-
-
