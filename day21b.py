@@ -1,9 +1,10 @@
 from collections import Counter
 from itertools import product
+
 p1, p2 = int(input().split(' ')[-1]), int(input().split(' ')[-1])
 S = [Counter() for turn in range(43)]
-
 S[0][(p1,p2,0,0)] = 1
+
 answer1, answer2 = 0, 0
 for i in range(42):
     for (p1, p2, s1, s2), value in S[i].items():
