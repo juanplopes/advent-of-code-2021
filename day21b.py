@@ -8,7 +8,7 @@ S[0][(p1,p2,0,0)] = 1
 answer1, answer2 = 0, 0
 for i in range(42):
     for (p1, p2, s1, s2), value in S[i].items():
-        if   s1 == 21: answer1 += value
+        if s1 == 21: answer1 += value
         elif s2 == 21: answer2 += value
         elif i%2 == 0:
             for a, b, c in product((1,2,3), repeat=3):
