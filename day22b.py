@@ -2,9 +2,7 @@ from dataclasses import dataclass
 
 @dataclass(frozen=True)
 class Cuboid:
-    x1: int; x2: int
-    y1: int; y2: int
-    z1: int; z2: int
+    x1: int; x2: int; y1: int; y2: int; z1: int; z2: int
 
     def count(self):
         if self.x1 >= self.x2 or self.y1 >= self.y2 or self.z1 >= self.z2: return 0
