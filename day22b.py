@@ -9,18 +9,23 @@ class Cuboid:
         return (self.x2 - self.x1) * (self.y2 - self.y1) * (self.z2 - self.z1)
 
     def subtract(a, b):
-        b = Cuboid(min(max(b.x1, a.x1), a.x2), min(max(b.x2, a.x1), a.x2),
-                   min(max(b.y1, a.y1), a.y2), min(max(b.y2, a.y1), a.y2),
-                   min(max(b.z1, a.z1), a.z2), min(max(b.z2, a.z1), a.z2))
+        if not (a.x1 < b.x2 and a.x2 > b.x1
+            and a.y1 < b.y2 and a.y2 > b.y1
+            and a.z1 < b.z2 and a.z2 > b.z1):
+            yield a
+        else:
+            b = Cuboid(min(max(b.x1, a.x1), a.x2), min(max(b.x2, a.x1), a.x2),
+                    min(max(b.y1, a.y1), a.y2), min(max(b.y2, a.y1), a.y2),
+                    min(max(b.z1, a.z1), a.z2), min(max(b.z2, a.z1), a.z2))
 
-        yield Cuboid(a.x1, b.x1, a.y1, a.y2, a.z1, a.z2)
-        yield Cuboid(b.x2, a.x2, a.y1, a.y2, a.z1, a.z2)
-        yield Cuboid(b.x1, b.x2, a.y1, b.y1, a.z1, a.z2)
-        yield Cuboid(b.x1, b.x2, b.y2, a.y2, a.z1, a.z2)
-        yield Cuboid(b.x1, b.x2, b.y1, b.y2, a.z1, b.z1)
-        yield Cuboid(b.x1, b.x2, b.y1, b.y2, b.z2, a.z2)
+            yield Cuboid(a.x1, b.x1, a.y1, a.y2, a.z1, a.z2)
+            yield Cuboid(b.x2, a.x2, a.y1, a.y2, a.z1, a.z2)
+            yield Cuboid(b.x1, b.x2, a.y1, b.y1, a.z1, a.z2)
+            yield Cuboid(b.x1, b.x2, b.y2, a.y2, a.z1, a.z2)
+            yield Cuboid(b.x1, b.x2, b.y1, b.y2, a.z1, b.z1)
+            yield Cuboid(b.x1, b.x2, b.y1, b.y2, b.z2, a.z2)
       
-T = set()
+T = []
 for step in range(1, 100000):
     try: cmd, line = input().split(' ')
     except EOFError: break
@@ -29,11 +34,10 @@ for step in range(1, 100000):
         for b in a.split('=')[1].split('..'))
     
     cuboid = Cuboid(x1, x2+1, y1, y2+1, z1, z2+1)
-    print(step, len(T), cuboid)
-    T = {child for other in T
+    T = [child for other in T
          for child in other.subtract(cuboid) 
-         if child.count() > 0}
+         if child.count() > 0]
     if cmd == 'on':
-        T.add(cuboid)
+        T.append(cuboid)
 
 print(sum(x.count() for x in T))
