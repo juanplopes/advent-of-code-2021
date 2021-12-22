@@ -28,9 +28,9 @@ T = []
 for step in range(1, 100000):
     try: cmd, line = input().split(' ')
     except EOFError: break
-    cuboid = Cuboid(*(int(b) 
-        for a in line.split(',') 
-        for b in a.split('=')[1].split('..')))
+    x1, x2, y1, y2, z1, z2 = ()
+    
+    cuboid = Cuboid((x1, x2+1, y1, y2+1, z1, z2+1))
     T = [child for other in T
          for child in other.subtract(cuboid) 
          if child.count() > 0]
