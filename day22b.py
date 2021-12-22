@@ -10,23 +10,17 @@ class Cuboid:
         if self.x1 >= self.x2 or self.y1 >= self.y2 or self.z1 >= self.z2: return 0
         return (self.x2 - self.x1) * (self.y2 - self.y1) * (self.z2 - self.z1)
 
-    def subtract(self, other):
-        other = Cuboid(
-            min(max(other.x1, self.x1), self.x2),
-            min(max(other.x2, self.x1), self.x2),
-            min(max(other.y1, self.y1), self.y2),
-            min(max(other.y2, self.y1), self.y2),
-            min(max(other.z1, self.z1), self.z2),
-            min(max(other.z2, self.z1), self.z2))
+    def subtract(a, b):
+        b = Cuboid(min(max(b.x1, a.x1), a.x2), min(max(b.x2, a.x1), a.x2),
+                   min(max(b.y1, a.y1), a.y2), min(max(b.y2, a.y1), a.y2),
+                   min(max(b.z1, a.z1), a.z2), min(max(b.z2, a.z1), a.z2))
 
-        yield Cuboid(self.x1, other.x1, self.y1, self.y2, self.z1, self.z2)
-        yield Cuboid(other.x2, self.x2, self.y1, self.y2, self.z1, self.z2)
-
-        yield Cuboid(other.x1, other.x2, self.y1, other.y1, self.z1, self.z2)
-        yield Cuboid(other.x1, other.x2, other.y2, self.y2, self.z1, self.z2)
-
-        yield Cuboid(other.x1, other.x2, other.y1, other.y2, self.z1, other.z1)
-        yield Cuboid(other.x1, other.x2, other.y1, other.y2, other.z2, self.z2)
+        yield Cuboid(a.x1, b.x1, a.y1, a.y2, a.z1, a.z2)
+        yield Cuboid(b.x2, a.x2, a.y1, a.y2, a.z1, a.z2)
+        yield Cuboid(b.x1, b.x2, a.y1, b.y1, a.z1, a.z2)
+        yield Cuboid(b.x1, b.x2, b.y2, a.y2, a.z1, a.z2)
+        yield Cuboid(b.x1, b.x2, b.y1, b.y2, a.z1, b.z1)
+        yield Cuboid(b.x1, b.x2, b.y1, b.y2, b.z2, a.z2)
       
 T = set()
 for step in range(1, 100000):
